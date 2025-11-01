@@ -1,12 +1,10 @@
-using UnityEngine;
 using UnityEngine.UI;
 
 public class ButtonPlay : Button
 {
     public void Play()
     {
-        Debug.Log("Play");
-        // gamemanager.play()
+        GameManager.Instance.StartGame();
     }
 
     protected override void Start()
