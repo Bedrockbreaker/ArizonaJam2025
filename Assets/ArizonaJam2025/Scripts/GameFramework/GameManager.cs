@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +15,11 @@ public class GameManager : MonoBehaviour
 	private AudioSource MusicAudioSource;
 
 	public void PlayOneShot(AudioClip clip) => SFXAudioSource.PlayOneShot(clip);
+
+	public void StartGame()
+	{
+		SceneManager.LoadScene("S_Game");
+	}
 
 	protected void Awake()
 	{
