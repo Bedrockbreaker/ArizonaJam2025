@@ -8,8 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Floor_WoodPlanks
-  m_Shader: {fileID: -6465566751694194690, guid: a43df71c3c756fd43bfae04fb27a575e,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: a43df71c3c756fd43bfae04fb27a575e, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -172,7 +171,7 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _Tiling: 0.7
+    - _Tiling: 0.3
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _matallic: 0
