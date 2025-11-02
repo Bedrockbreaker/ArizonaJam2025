@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/ArizonaJam2025/Scenes/S_Settings.unity
     guid: b6be4ec110c7d6535a26123077e1ca98
   - enabled: 1
+    path: Assets/ArizonaJam2025/Scenes/S_WhiiteBox.unity
+    guid: 5ab182bc4d7f06642a53581173467dc5
+  - enabled: 0
     path: Assets/ArizonaJam2025/Scenes/S_Game.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Dev/Bedrock/S_RoomTest.unity
     guid: c2d3c422536e0f944bd4d278090a3c0b
   m_configObjects:

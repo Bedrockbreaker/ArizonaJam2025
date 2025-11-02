@@ -39,7 +39,7 @@ public sealed class GameManager : MonoBehaviour
 		cameraManager.UICameraPoint = UICameraEndPoint;
 		// SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
 		gameCanvas.gameObject.SetActive(true);
-		LoadScene("S_RoomTest");
+		LoadScene("S_WhiiteBox");
 	}
 
 	public void LoadScene(string scene)

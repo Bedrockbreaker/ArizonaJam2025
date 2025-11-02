@@ -9,6 +9,7 @@ public class RoomBox : MonoBehaviour
 
 	public void OnTriggerEnter(Collider other)
 	{
+		Debug.Log("Collided with " + other.name);
 		if (!other.TryGetComponent<Character>(out _)) return;
 		GameManager.Instance.GetCameraManager().UseRoomTrack(this);
 	}
