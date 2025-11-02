@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ public class SeeingEye : MonoBehaviour
 	public float gamepadSensitivity = 1.0f;
 
 	private Vector2 tvCanvasPercent;
+
+	// private Plane worldPlane = new(-Vector3.right, 0f);
 
 	/**
 	 * <summary>
@@ -22,7 +25,9 @@ public class SeeingEye : MonoBehaviour
 	 */
 	public void Look(InputAction.CallbackContext context)
 	{
-		if (context.control is Pointer pointer)
+		Debug.Log("SeeingEye.Look");
+
+		if (context.control.device is Pointer pointer)
 		{
 			// Raycast from camera to projected plane (treat the world-space canvas as a plane)
 			Camera UICamera = GameManager.Instance.GetCameraManager().UICamera;
@@ -33,17 +38,18 @@ public class SeeingEye : MonoBehaviour
 			if (plane.Raycast(ray, out float enter))
 			{
 				Vector2 tvCanvasPosition = tvPlane.transform.InverseTransformPoint(ray.GetPoint(enter));
+
 				// test if position is inside the canvas
 				if (
-					tvCanvasPosition.x >= 0 && tvCanvasPosition.x <= tvPlane.rect.width
-					&& tvCanvasPosition.y >= 0 && tvCanvasPosition.y <= tvPlane.rect.height
+					tvCanvasPosition.x >= -tvPlane.rect.width * 0.5f && tvCanvasPosition.x <= tvPlane.rect.width * 0.5f
+					&& tvCanvasPosition.y >= -tvPlane.rect.height && tvCanvasPosition.y <= tvPlane.rect.height * 0.5f
 				)
 				{
 					Debug.Log("Position is inside the canvas.");
 
 					// convert tvCanvasPosition to percent
-					tvCanvasPercent.x = tvCanvasPosition.x / tvPlane.rect.width;
-					tvCanvasPercent.y = tvCanvasPosition.y / tvPlane.rect.height;
+					tvCanvasPercent.x = (tvCanvasPosition.x + tvPlane.rect.width * 0.5f) / tvPlane.rect.width;
+					tvCanvasPercent.y = (tvCanvasPosition.y + tvPlane.rect.height * 0.5f) / tvPlane.rect.height;
 				}
 				else
 				{
@@ -64,17 +70,31 @@ public class SeeingEye : MonoBehaviour
 			tvCanvasPercent.y = Mathf.Clamp01(tvCanvasPercent.y);
 		}
 
-		Vector3 worldCanvasPosition = worldPlane.position - worldPlane.right * tvCanvasPercent.x + worldPlane.up * tvCanvasPercent.y;
+		// Convert tvCanvasPercent to world space position
+
+		Vector3 worldCanvasPosition = worldPlane.transform.TransformPoint(new Vector3(
+			worldPlane.rect.width * tvCanvasPercent.x - worldPlane.rect.width * 0.5f,
+			worldPlane.rect.height * tvCanvasPercent.y - worldPlane.rect.height * 0.5f,
+			0f
+		));
+
+		Debug.Log(worldCanvasPosition);
+
 		Camera mainCamera = GameManager.Instance.GetCameraManager().MainCamera;
+		Vector3 worldDirection = worldCanvasPosition - mainCamera.transform.position;
+
 
 		// If object is in cone (vertical is oriented main camera -> worldCanvasPosition), show it
 		// If object is outside cone, hide it
 
 		GameManager.Instance.GetHiddenObjects().ForEach(hiddenObject =>
 		{
-			Vector3 hiddenObjectPosition = hiddenObject.transform.position;
-			Vector3 hiddenObjectDirection = hiddenObjectPosition - mainCamera.transform.position;
-			float angle = Vector3.Angle(worldCanvasPosition - mainCamera.transform.position, hiddenObjectDirection);
+			Vector3 hiddenObjectDirection = hiddenObject.transform.position - mainCamera.transform.position;
+
+			float angle = Vector3.Angle(worldDirection, hiddenObjectDirection);
+
+			Debug.Log(hiddenObject.name + " angle: " + angle);
+
 			if (angle <= revealConeDegrees)
 			{
 				hiddenObject.gameObject.SetActive(true);

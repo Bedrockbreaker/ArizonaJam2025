@@ -43,6 +43,12 @@ public class Character : Pawn
 		cameraLookPoint.transform.position = transform.position;
 	}
 
+	public override void Look(InputAction.CallbackContext context)
+	{
+		Debug.Log("Character.Look");
+		GameManager.Instance.GetSeeingEye().Look(context);
+	}
+
 	protected Collider[] interactables = new Collider[8];
 	public override void Interact(InputAction.CallbackContext context)
 	{

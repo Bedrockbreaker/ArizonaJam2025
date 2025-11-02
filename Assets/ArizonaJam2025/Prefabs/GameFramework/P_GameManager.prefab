@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SeeingEye
   tvPlane: {fileID: 0}
   worldPlane: {fileID: 0}
-  revealConeDegrees: 33.3
+  revealConeDegrees: 10
   gamepadSensitivity: 1
 --- !u!1 &4837445665936075125
 GameObject:
@@ -562,6 +562,7 @@ MonoBehaviour:
   UICameraEndPoint: {fileID: 0}
   interactPrompt: {fileID: 3708845527833892694}
   interactPromptAnimator: {fileID: 2371602920951460098}
+  seeingEye: {fileID: 3575386350021900726}
 --- !u!114 &4022876446767997889
 MonoBehaviour:
   m_ObjectHideFlags: 0

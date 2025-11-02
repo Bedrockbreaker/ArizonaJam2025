@@ -22,6 +22,8 @@ public sealed class GameManager : MonoBehaviour
 	private Canvas interactPrompt;
 	[SerializeField, Tooltip("Animator for the interact prompt")]
 	private Animator interactPromptAnimator;
+	[SerializeField, Tooltip("The seeing eye")]
+	private SeeingEye seeingEye;
 
 	private PlayerController playerController;
 	private Transform interactPromptPoint;
@@ -35,7 +37,6 @@ public sealed class GameManager : MonoBehaviour
 		cameraManager.UICameraPoint = UICameraEndPoint;
 		// SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
 		SceneManager.LoadScene("S_RoomTest", LoadSceneMode.Additive);
-		// SceneManager.sceneLoaded += OnGameSceneLoaded;
 	}
 
 	public CameraManager GetCameraManager() => cameraManager;
@@ -72,11 +73,7 @@ public sealed class GameManager : MonoBehaviour
 
 	public List<HiddenObject> GetHiddenObjects() => hiddenObjects;
 
-	private void OnGameSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
-		// SceneManager.SetActiveScene(scene);
-		SceneManager.sceneLoaded -= OnGameSceneLoaded;
-	}
+	public SeeingEye GetSeeingEye() => seeingEye;
 
 	private void Awake()
 	{
