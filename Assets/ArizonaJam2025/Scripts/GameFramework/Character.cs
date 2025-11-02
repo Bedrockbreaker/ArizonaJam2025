@@ -20,6 +20,7 @@ public class Character : Pawn
 	public CapsuleCollider characterCollider;
 	public Transform cameraLookPoint;
 	public Transform carryPoint;
+	public SeeingEye seeingEye;
 
 	private bool bHiding = false;
 	private Transform carryObject = null;
