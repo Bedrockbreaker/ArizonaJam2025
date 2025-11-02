@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
 
 	public void StartGame()
 	{
-		SceneManager.LoadScene("S_Game");
+		// SceneManager.LoadScene("S_Game");
+		SceneManager.LoadScene("S_RoomTest");
 	}
 
 	public CameraManager GetCameraManager() => cameraManager;

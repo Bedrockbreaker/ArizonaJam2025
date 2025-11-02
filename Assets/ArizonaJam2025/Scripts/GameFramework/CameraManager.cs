@@ -22,6 +22,8 @@ public class CameraManager : MonoBehaviour
 
 	protected void UpdatePositionToTrack()
 	{
+		if (MainCamera == null) return;
+
 		PlayerController controller = GameManager.Instance.GetPlayerController();
 		if (controller == null) return;
 		Character pawn = controller.Pawn as Character;
@@ -45,7 +47,7 @@ public class CameraManager : MonoBehaviour
 			Vector3.Lerp(MainCamera.transform.position, closestPoint, 1 - Mathf.Exp(-mainSmoothing * Time.deltaTime));
 
 		// Calculate the percentage of the line that the player is on
-		float distance = (MainCamera.transform.position - closestPoint).magnitude;
+		float distance = (closestPoint - room.cameraEnd.position).magnitude;
 		float percent = distance / (room.cameraEnd.position - room.cameraStart.position).magnitude;
 
 		// Interpolate the rotation between the start and end stops
