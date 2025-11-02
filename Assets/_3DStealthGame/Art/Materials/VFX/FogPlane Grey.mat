@@ -21,8 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: FogPlane Grey
-  m_Shader: {fileID: -6465566751694194690, guid: 63a1f2b31168bea48b8ceee0c42ee1b8,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 63a1f2b31168bea48b8ceee0c42ee1b8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -69,10 +68,10 @@ Material:
     m_Ints: []
     m_Floats:
     - Vector1_42955414091d46e199e33a9f313954a2: 0.02
-    - Vector1_6C354252: 2
+    - Vector1_6C354252: 8.5
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Color_5C2724CC: {r: 0.054734774, g: 0.07239885, b: 0.09433961, a: 0}
+    - Color_5C2724CC: {r: 0.010639631, g: 0.008484624, b: 0.01886791, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
