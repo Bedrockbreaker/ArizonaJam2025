@@ -1,15 +1,26 @@
+using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonPlay : Button
+public class ButtonPlay : MonoBehaviour
 {
+    public Button thisButton;
+    public Canvas UICanvas;
+
     public void Play()
     {
+        UICanvas.enabled = false;
         GameManager.Instance.StartGame();
     }
 
-    protected override void Start()
+    protected void Start()
+    {
+        thisButton.onClick.AddListener(Play);
+    }
+
+#if UNITY_EDITOR
+    protected void Reset()
 	{
-        base.Start();
-        onClick.AddListener(Play);
+		if (thisButton == null) thisButton = GetComponent<Button>();
 	}
+#endif
 }

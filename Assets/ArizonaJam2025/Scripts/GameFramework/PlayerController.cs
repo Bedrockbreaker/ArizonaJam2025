@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 	protected void Start()
 	{
 		if (actionMove == null) actionMove = InputActionReference.Create(InputSystem.actions.FindAction("Move"));
-		if (actionMove == null) actionMove = InputActionReference.Create(InputSystem.actions.FindAction("Look"));
+		if (actionLook == null) actionLook = InputActionReference.Create(InputSystem.actions.FindAction("Look"));
 		if (actionInteract == null) actionInteract =
 			InputActionReference.Create(InputSystem.actions.FindAction("Interact"));
 
