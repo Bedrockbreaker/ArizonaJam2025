@@ -25,8 +25,6 @@ public class SeeingEye : MonoBehaviour
 	 */
 	public void Look(InputAction.CallbackContext context)
 	{
-		Debug.Log("SeeingEye.Look");
-
 		if (context.control.device is Pointer pointer)
 		{
 			// Raycast from camera to projected plane (treat the world-space canvas as a plane)
@@ -45,15 +43,12 @@ public class SeeingEye : MonoBehaviour
 					&& tvCanvasPosition.y >= -tvPlane.rect.height && tvCanvasPosition.y <= tvPlane.rect.height * 0.5f
 				)
 				{
-					Debug.Log("Position is inside the canvas.");
-
 					// convert tvCanvasPosition to percent
 					tvCanvasPercent.x = (tvCanvasPosition.x + tvPlane.rect.width * 0.5f) / tvPlane.rect.width;
 					tvCanvasPercent.y = (tvCanvasPosition.y + tvPlane.rect.height * 0.5f) / tvPlane.rect.height;
 				}
 				else
 				{
-					Debug.Log("Position is outside the canvas.");
 					return;
 				}
 			}
@@ -78,11 +73,8 @@ public class SeeingEye : MonoBehaviour
 			0f
 		));
 
-		Debug.Log(worldCanvasPosition);
-
 		Camera mainCamera = GameManager.Instance.GetCameraManager().MainCamera;
 		Vector3 worldDirection = worldCanvasPosition - mainCamera.transform.position;
-
 
 		// If object is in cone (vertical is oriented main camera -> worldCanvasPosition), show it
 		// If object is outside cone, hide it
@@ -92,8 +84,6 @@ public class SeeingEye : MonoBehaviour
 			Vector3 hiddenObjectDirection = hiddenObject.transform.position - mainCamera.transform.position;
 
 			float angle = Vector3.Angle(worldDirection, hiddenObjectDirection);
-
-			Debug.Log(hiddenObject.name + " angle: " + angle);
 
 			if (angle <= revealConeDegrees)
 			{
