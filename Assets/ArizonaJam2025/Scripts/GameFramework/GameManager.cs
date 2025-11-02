@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
 	private AudioSource SFXAudioSource;
 	[SerializeField, Tooltip("The audio source used for music")]
 	private AudioSource MusicAudioSource;
+	[SerializeField, Tooltip("The camera manager")]
+	private CameraManager cameraManager;
+
+	private PlayerController playerController;
 
 	public void PlayOneShot(AudioClip clip) => SFXAudioSource.PlayOneShot(clip);
 
@@ -20,6 +24,20 @@ public class GameManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("S_Game");
 	}
+
+	public CameraManager GetCameraManager() => cameraManager;
+
+	public void RegisterController(PlayerController controller)
+	{
+		playerController = controller;
+	}
+
+	public void UnregisterController()
+	{
+		playerController = null;
+	}
+
+	public PlayerController GetPlayerController() => playerController;
 
 	protected void Awake()
 	{

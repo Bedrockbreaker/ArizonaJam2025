@@ -13,6 +13,22 @@ public class PlayerController : MonoBehaviour
 	public InputActionReference actionLook;
 	public InputActionReference actionInteract;
 
+	public void Possess(Pawn pawnIn)
+	{
+		Pawn oldPawn = Pawn;
+
+		if (Pawn != null) Pawn.DetachController();
+		Pawn = pawnIn;
+		if (Pawn != null) Pawn.AttachController(this);
+
+		if (oldPawn != pawnIn) OnPawnChanged?.Invoke(oldPawn, Pawn);
+	}
+
+	protected void Awake()
+	{
+		GameManager.Instance.RegisterController(this);
+	}
+
 	protected void Start()
 	{
 		if (actionMove == null) actionMove = InputActionReference.Create(InputSystem.actions.FindAction("Move"));
@@ -28,14 +44,9 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void Possess(Pawn pawnIn)
+	protected void OnDestroy()
 	{
-		Pawn oldPawn = Pawn;
-
 		if (Pawn != null) Pawn.DetachController();
-		Pawn = pawnIn;
-		if (Pawn != null) Pawn.AttachController(this);
-
-		if (oldPawn != pawnIn) OnPawnChanged?.Invoke(oldPawn, Pawn);
+		GameManager.Instance.UnregisterController();
 	}
 }
