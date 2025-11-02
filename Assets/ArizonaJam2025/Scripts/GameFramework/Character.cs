@@ -20,6 +20,7 @@ public class Character : Pawn
 	public CapsuleCollider characterCollider;
 	public Transform cameraLookPoint;
 	public Transform carryPoint;
+	public SeeingEye seeingEye;
 
 	private bool bHiding = false;
 	private Transform carryObject = null;
@@ -40,6 +41,12 @@ public class Character : Pawn
 	{
 		desiredSpeed = 0f;
 		cameraLookPoint.transform.position = transform.position;
+	}
+
+	public override void Look(InputAction.CallbackContext context)
+	{
+		Debug.Log("Character.Look");
+		GameManager.Instance.GetSeeingEye().Look(context);
 	}
 
 	protected Collider[] interactables = new Collider[8];
