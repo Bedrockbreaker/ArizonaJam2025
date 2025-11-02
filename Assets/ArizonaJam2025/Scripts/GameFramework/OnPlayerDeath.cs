@@ -1,13 +1,9 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OnPlayerDeath : MonoBehaviour
 {
     private RespawnCheckpoint currentCheckpoint;
-
-    public void Start()
-    {
-        KillPlayer();
-    }
 
     public void KillPlayer()
     {
