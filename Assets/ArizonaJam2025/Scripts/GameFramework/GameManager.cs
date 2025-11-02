@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -35,16 +36,18 @@ public sealed class GameManager : MonoBehaviour
 
 	public void StartGame()
 	{
-		cameraManager.UICamera.GetComponent<AudioListener>().enabled = false;
-		cameraManager.UICameraPoint = UICameraEndPoint;
-		// SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
-		gameCanvas.gameObject.SetActive(true);
-		LoadScene("S_WhiiteBox");
-	}
+        cameraManager.UICamera.GetComponent<AudioListener>().enabled = false;
+        cameraManager.UICameraPoint = UICameraEndPoint;
+        // SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
+        gameCanvas.gameObject.SetActive(true);
+        // LoadScene("S_Game");
+		//LoadScene("S_RoomTest");
+        SceneManager.LoadScene("S_RoomTest", LoadSceneMode.Additive);
+    }
 
 	public void LoadScene(string scene)
 	{
-        SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+		SceneManager.LoadScene(scene);
     }
 
 	public CameraManager GetCameraManager() => cameraManager;

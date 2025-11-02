@@ -6,9 +6,6 @@ public class DeathTrigger : Trigger
     {
         base.OnTriggerEnter(other);
         OnPlayerDeath playerDeathComp = other.gameObject.AddComponent<OnPlayerDeath>();
-        if (playerDeathComp != null)
-        {
-            playerDeathComp.KillPlayer();
-        }
+        playerDeathComp.KillPlayer();
     }
 }
