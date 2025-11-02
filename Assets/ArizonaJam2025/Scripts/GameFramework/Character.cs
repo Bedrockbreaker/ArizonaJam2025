@@ -8,11 +8,13 @@ public class Character : Pawn
 	public float speed = 5f;
 	[Tooltip("Greater values are more responsive"), Min(float.Epsilon)]
 	public float speedSmoothing = 0.5f;
+	public float cameraLookAheadScale = 2.5f;
 
 	[Header("Component References")]
 	public Animator animator;
 	public Rigidbody physicsBody;
 	public GameObject mesh;
+	public Transform cameraLookPoint;
 
 	private float desiredSpeed = 0f;
 
@@ -25,11 +27,13 @@ public class Character : Pawn
 		// Eat fast inputs (only polled once per physics tick below)
 		// Good enough for a jam 
 		desiredSpeed = input.x * speed;
+		cameraLookPoint.transform.position = transform.position + cameraLookAheadScale * input.x * Vector3.forward;
 	}
 
 	public override void StopMove(InputAction.CallbackContext context)
 	{
 		desiredSpeed = 0f;
+		cameraLookPoint.transform.position = transform.position;
 	}
 
 	public override void DetachController()
