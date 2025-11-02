@@ -2,7 +2,13 @@ using UnityEngine;
 
 public class HiddenObject : MonoBehaviour
 {
-	public bool bHidden = true;
+	protected void Start()
+	{
+		GameManager.Instance.RegisterHiddenObject(this);
+	}
 
-
+	protected void OnDestroy()
+	{
+		GameManager.Instance.UnregisterHiddenObject(this);
+	}
 }

@@ -67,10 +67,22 @@ public class SeeingEye : MonoBehaviour
 		Vector3 worldCanvasPosition = worldPlane.position - worldPlane.right * tvCanvasPercent.x + worldPlane.up * tvCanvasPercent.y;
 		Camera mainCamera = GameManager.Instance.GetCameraManager().MainCamera;
 
-		// Find all objects tagged "hidden" in a cone from mainCamera to worldCanvasPosition
-		// If object is in cone, show it
+		// If object is in cone (vertical is oriented main camera -> worldCanvasPosition), show it
 		// If object is outside cone, hide it
 
-		
+		GameManager.Instance.GetHiddenObjects().ForEach(hiddenObject =>
+		{
+			Vector3 hiddenObjectPosition = hiddenObject.transform.position;
+			Vector3 hiddenObjectDirection = hiddenObjectPosition - mainCamera.transform.position;
+			float angle = Vector3.Angle(worldCanvasPosition - mainCamera.transform.position, hiddenObjectDirection);
+			if (angle <= revealConeDegrees)
+			{
+				hiddenObject.gameObject.SetActive(true);
+			}
+			else
+			{
+				hiddenObject.gameObject.SetActive(false);
+			}
+		});
 	}
 }
