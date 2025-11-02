@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public enum MainCameraState { None, Room, Mounted }
 
@@ -7,17 +6,43 @@ public class CameraManager : MonoBehaviour
 {
 	public Camera MainCamera;
 	public Camera UICamera;
-	public RenderTexture tvScreen;
+	public Transform UICameraPoint;
 
+	public float uiSmoothing = 0.5f;
 	public float mainSmoothing = 0.5f;
 
 	private MainCameraState state = MainCameraState.None;
 	private RoomBox room;
+	private Transform mountPoint;
 
 	public void UseRoomTrack(RoomBox room)
 	{
 		this.room = room;
 		state = MainCameraState.Room;
+	}
+
+	public void UseMountPoint(Transform mountPoint)
+	{
+		this.mountPoint = mountPoint;
+		state = MainCameraState.Mounted;
+	}
+
+	protected void UpdateUICameraPosition()
+	{
+		if (UICamera == null || UICameraPoint == null) return;
+
+		UICamera.transform.SetPositionAndRotation(
+			Vector3.Lerp(
+				UICamera.transform.position,
+				UICameraPoint.position,
+				1 - Mathf.Exp(-uiSmoothing * Time.deltaTime)
+			),
+			Quaternion.Slerp(
+				UICamera.transform.rotation,
+				UICameraPoint.rotation,
+				1 - Mathf.Exp(-uiSmoothing * Time.deltaTime)
+			)
+		);
 	}
 
 	protected void UpdatePositionToTrack()
@@ -64,20 +89,25 @@ public class CameraManager : MonoBehaviour
 
 	protected void UpdatePositionToMount()
 	{
-		
-	}
+		if (MainCamera == null) return;
 
-	protected void Start()
-	{
-		// If starting from the main menu, we additvely load scenes. If we start from the game scene, we don't.
-		if (SceneManager.loadedSceneCount > 1)
-		{
-			MainCamera.targetTexture = tvScreen;
-		}
+		MainCamera.transform.SetPositionAndRotation(
+			Vector3.Lerp(
+				MainCamera.transform.position,
+				mountPoint.position,
+				1 - Mathf.Exp(-mainSmoothing * Time.deltaTime)
+			),
+			Quaternion.Slerp(
+				MainCamera.transform.rotation,
+				mountPoint.rotation,
+				1 - Mathf.Exp(-mainSmoothing * Time.deltaTime)
+			)
+		);
 	}
 
 	protected void Update()
 	{
+		UpdateUICameraPosition();
 		switch (state)
 		{
 			case MainCameraState.None: break;

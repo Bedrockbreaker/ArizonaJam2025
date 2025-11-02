@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public sealed class GameManager : MonoBehaviour
 {
 	public static GameManager Instance { get; private set; }
 
@@ -15,15 +15,25 @@ public class GameManager : MonoBehaviour
 	private AudioSource MusicAudioSource;
 	[SerializeField, Tooltip("The camera manager")]
 	private CameraManager cameraManager;
+	[SerializeField, Tooltip("End position of the UI camera (i.e. for normal gameplay)")]
+	private Transform UICameraEndPoint;
+	[SerializeField, Tooltip("Canvas for the interact prompt")]
+	private Canvas interactPrompt;
+	[SerializeField, Tooltip("Animator for the interact prompt")]
+	private Animator interactPromptAnimator;
 
 	private PlayerController playerController;
+	private Transform interactPromptPoint;
 
 	public void PlayOneShot(AudioClip clip) => SFXAudioSource.PlayOneShot(clip);
 
 	public void StartGame()
 	{
-		// SceneManager.LoadScene("S_Game");
-		SceneManager.LoadScene("S_RoomTest");
+		cameraManager.UICamera.GetComponent<AudioListener>().enabled = false;
+		cameraManager.UICameraPoint = UICameraEndPoint;
+		// SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
+		SceneManager.LoadScene("S_RoomTest", LoadSceneMode.Additive);
+		SceneManager.sceneLoaded += OnGameSceneLoaded;
 	}
 
 	public CameraManager GetCameraManager() => cameraManager;
@@ -40,7 +50,27 @@ public class GameManager : MonoBehaviour
 
 	public PlayerController GetPlayerController() => playerController;
 
-	protected void Awake()
+	public void PlaceInteractPrompt(Transform transformIn)
+	{
+		interactPromptPoint = transformIn;
+		// Rotate 90 degrees to face player
+		interactPrompt.transform.rotation = transformIn.rotation * Quaternion.Euler(0f, -90f, 0f);
+		interactPromptAnimator.SetBool("bShown", true);
+	}
+
+	public void HideInteractPrompt()
+	{
+		interactPromptPoint = null;
+		interactPromptAnimator.SetBool("bShown", false);
+	}
+
+	private void OnGameSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+		SceneManager.SetActiveScene(scene);
+		SceneManager.sceneLoaded -= OnGameSceneLoaded;
+	}
+
+	private void Awake()
 	{
 		if (Instance == null)
 		{
@@ -53,10 +83,16 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	protected void Start()
+	private void Start()
 	{
 		audioMixer.SetFloat("VolumeMaster", PlayerPrefs.GetFloat("VolumeMaster", 1f));
 		audioMixer.SetFloat("VolumeMusic", PlayerPrefs.GetFloat("VolumeMusic", 1f));
 		audioMixer.SetFloat("VolumeSFX", PlayerPrefs.GetFloat("VolumeSFX", 1f));
+	}
+
+	private void Update()
+	{
+		if (interactPromptPoint == null) return;
+		interactPrompt.transform.position = interactPromptPoint.position;
 	}
 }

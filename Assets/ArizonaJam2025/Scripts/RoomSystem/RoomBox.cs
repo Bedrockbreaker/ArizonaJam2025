@@ -7,8 +7,9 @@ public class RoomBox : MonoBehaviour
 	public Transform cameraStart;
 	public Transform cameraEnd;
 
-	public void OnTriggerEnter()
+	public void OnTriggerEnter(Collider other)
 	{
+		if (!other.TryGetComponent<Character>(out _)) return;
 		GameManager.Instance.GetCameraManager().UseRoomTrack(this);
 	}
 
