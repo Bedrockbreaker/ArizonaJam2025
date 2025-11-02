@@ -36,8 +36,13 @@ public sealed class GameManager : MonoBehaviour
 		cameraManager.UICamera.GetComponent<AudioListener>().enabled = false;
 		cameraManager.UICameraPoint = UICameraEndPoint;
 		// SceneManager.LoadScene("S_Game", LoadSceneMode.Additive);
-		SceneManager.LoadScene("S_RoomTest", LoadSceneMode.Additive);
+		LoadScene("S_RoomTest");
 	}
+
+	public void LoadScene(string scene)
+	{
+        SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+    }
 
 	public CameraManager GetCameraManager() => cameraManager;
 
