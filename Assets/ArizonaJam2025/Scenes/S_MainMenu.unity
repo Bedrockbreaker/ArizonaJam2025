@@ -4072,6 +4072,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1797060505}
     - target: {fileID: 6058527508644693041, guid: 71a295c3884402e1e904e5ab0d16ac83, type: 3}
+      propertyPath: gameCanvas
+      value: 
+      objectReference: {fileID: 1116751312}
+    - target: {fileID: 6058527508644693041, guid: 71a295c3884402e1e904e5ab0d16ac83, type: 3}
       propertyPath: UICameraEndPoint
       value: 
       objectReference: {fileID: 771638819}
